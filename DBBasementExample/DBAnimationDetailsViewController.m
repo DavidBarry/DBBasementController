@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *contentViewOverlapLabel;
 @property (strong, nonatomic) IBOutlet UISlider *contentViewOverlapSlider;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *transformSegmentedControl;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)sliderValueChanged:(id)sender;
 - (IBAction)segmentedControlValueChanged:(id)sender;
@@ -37,6 +38,10 @@
     
     [self displayCurrentOptions];
     self.view.backgroundColor = [DBAppearanceManager contentBackgroundColor];
+    
+    CGFloat width = self.view.bounds.size.width;
+    CGFloat height = CGRectGetMaxY(self.transformSegmentedControl.frame) + 10.0f;
+    self.scrollView.contentSize = CGSizeMake(width, height);
 }
 
 - (void)menuWillClose {
