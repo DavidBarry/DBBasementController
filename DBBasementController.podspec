@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "DBBasementController"
-  spec.version      = "1.0"
+  spec.version      = "1.1"
   spec.summary      = "A slide out menu just how I like it."
   spec.homepage     = "https://github.com/DavidBarry/DBBasementController"
   spec.license      = { :type => 'MIT', :file => 'LICENSE' }
