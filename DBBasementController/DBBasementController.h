@@ -38,6 +38,7 @@
 - (void)openMenuAnimated:(BOOL)animated;
 - (void)closeMenuAnimated:(BOOL)animated;
 - (void)closeMenuAndChangeContentViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)closeMenuAndChangeContentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())closeCompletionBlock;
 - (void)toggleMenu;
 
 - (BOOL)menuIsOpen;

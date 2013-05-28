@@ -191,7 +191,12 @@ typedef struct {
     } completion:completionBlock];
 }
 
-- (void)closeMenuAndChangeContentViewController:(UIViewController *)viewController animated:(BOOL)animated {
+- (void)closeMenuAndChangeContentViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [self closeMenuAndChangeContentViewController:viewController animated:animated completion:nil];
+}
+
+- (void)closeMenuAndChangeContentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())closeCompletionBlock {
     UIViewController *oldContentViewController = self.contentViewController;
     //If the view controllers are the same we don't need to bother with appearance transition calls
     BOOL callAppearanceMethods = oldContentViewController != viewController;
@@ -213,6 +218,7 @@ typedef struct {
             
             [self closeMenuAnimated:animated completion:^{
                 if (callAppearanceMethods) [viewController endAppearanceTransition];
+                if (closeCompletionBlock) closeCompletionBlock();
             }];
         }];
         
@@ -226,6 +232,7 @@ typedef struct {
         
         [self closeMenuAnimated:animated completion:^{
             if (callAppearanceMethods) [viewController endAppearanceTransition];
+            if (closeCompletionBlock) closeCompletionBlock();
         }];
     }
 }
