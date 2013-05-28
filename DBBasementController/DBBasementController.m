@@ -218,9 +218,7 @@ typedef struct {
             
             [self closeMenuAnimated:animated completion:^{
                 if (callAppearanceMethods) [viewController endAppearanceTransition];
-                if (closeCompletionBlock) {
-                    closeCompletionBlock();
-                }
+                if (closeCompletionBlock) closeCompletionBlock();
             }];
         }];
         
@@ -234,9 +232,7 @@ typedef struct {
         
         [self closeMenuAnimated:animated completion:^{
             if (callAppearanceMethods) [viewController endAppearanceTransition];
-            if (closeCompletionBlock) {
-                closeCompletionBlock();
-            }
+            if (closeCompletionBlock) closeCompletionBlock();
         }];
     }
 }
