@@ -58,7 +58,7 @@ typedef struct {
 
 #pragma mark - Initializers
 - (id)initWithMenuViewController:(UIViewController *)menuViewController contentViewController:(UIViewController *)contentViewController {
-    return [self initWithMenuViewController:menuViewController contentViewController:contentViewController options:[DBBasementOptions new]];
+    return [self initWithMenuViewController:menuViewController contentViewController:contentViewController options:nil];
 }
 
 - (id)initWithMenuViewController:(UIViewController *)menuViewController contentViewController:(UIViewController *)contentViewController options:(DBBasementOptions *)options {
@@ -312,6 +312,8 @@ typedef struct {
 }
 
 - (void)setOptions:(DBBasementOptions *)options {
+    if (options == nil) options = [DBBasementOptions new];
+    
     _options = options;
     self.view.backgroundColor = _options.basementBackgroundColor;
     self.menuViewController.view.layer.cornerRadius = options.menuCornerRadius;
