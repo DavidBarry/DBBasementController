@@ -81,6 +81,7 @@
 
 + (void)applyNavigationAppearance {
     UIImage *navigationBarImage = [UIImage imageNamed:@"navigation-bar"];
+    navigationBarImage = [navigationBarImage resizableImageWithCapInsets:UIEdgeInsetsMake(22.0f, 0.0f, 21.0f, 0.0f)];
     [[UINavigationBar appearance] setBackgroundImage:navigationBarImage forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:[self selectedTextAttributesForFontSize:20.0f]];
     

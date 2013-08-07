@@ -135,7 +135,8 @@ typedef struct {
     [self menuWillOpen];
     
     [UIView animateWithDuration:duration delay:0.0f options:self.options.openCloseAnimationOptions animations:^{
-        self.contentContainerView.frame = contentFrame;
+//        self.contentContainerView.frame = contentFrame;
+        self.contentContainerView.transform = self.options.openMenuContentTransform;
         self.menuViewController.view.transform = CGAffineTransformIdentity;
         [self menuIsAnimatingOpen];
         
@@ -184,7 +185,8 @@ typedef struct {
     [self menuWillClose];
     
     [UIView animateWithDuration:duration delay:0.0f options:self.options.openCloseAnimationOptions animations:^{
-        self.contentContainerView.frame = contentFrame;
+//        self.contentContainerView.frame = contentFrame;
+        self.contentContainerView.transform = CGAffineTransformIdentity;
         self.menuViewController.view.transform = self.options.closedMenuTransform;
         [self menuIsAnimatingClosed];
         
@@ -243,7 +245,7 @@ typedef struct {
 
 - (BOOL)menuIsOpen {
     //If the x origin of the content view is 0 that means the menu is closed.
-    return self.contentContainerView.frame.origin.x != 0.0f;
+    return self.contentContainerView.frame.origin.x != 0.0f || self.contentContainerView.frame.origin.y != 0.0f;
 }
 
 #pragma mark - Accessory Views
@@ -415,8 +417,10 @@ typedef struct {
     
     CGPoint translation = [panGesture translationInView:panGesture.view];
     
-    self.contentContainerView.frame = [self applyTranslation:translation toFrame:contentFrameAtStartOfPan];
-    self.menuViewController.view.transform = [self transformBetweenStartTransform:self.options.closedMenuTransform endTransform:CGAffineTransformIdentity distance:[self percentMenuIsOpenForContentOrigin:self.contentContainerView.frame.origin]];
+    CGRect translatedFrame = [self applyTranslation:translation toFrame:self.view.bounds];
+    CGFloat distance = [self percentMenuIsOpenForContentOrigin:translatedFrame.origin];
+    self.contentContainerView.transform = [self transformBetweenStartTransform:CGAffineTransformIdentity endTransform:self.options.openMenuContentTransform distance:distance];
+    self.menuViewController.view.transform = [self transformBetweenStartTransform:self.options.closedMenuTransform endTransform:CGAffineTransformIdentity distance:distance];
     
     CGFloat percentOpen = self.contentContainerView.frame.origin.x / (self.view.bounds.size.width - self.options.contentViewOverlapWidth);
     percentOpen = fmin(fmax(0.0f, percentOpen), 1.0f);
@@ -526,14 +530,17 @@ typedef struct {
 - (void)finishOpenOrCloseWithPanInfo:(DBBasementPanResultInfo)panInfo completion:(void(^)())completion {
     CGFloat contentXOrigin = self.contentContainerView.frame.origin.x;
     CGRect finalFrame = self.view.bounds;
+    //Assume closing
     CGAffineTransform finalMenuTransform = self.options.closedMenuTransform;
+    CGAffineTransform finalContentTransform = CGAffineTransformIdentity;
     
     void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
         completion();
     };
     
     if (panInfo.menuAction == DBBasementMenuOpen) {
-        finalFrame.origin.x = finalFrame.size.width - self.options.contentViewOverlapWidth;
+//        finalFrame.origin.x = finalFrame.size.width - self.options.contentViewOverlapWidth;
+        finalContentTransform = self.options.openMenuContentTransform;
         finalMenuTransform = CGAffineTransformIdentity;
         [self applyContentOverlayView];
     } else {
@@ -563,7 +570,8 @@ typedef struct {
     }
     
     [UIView animateWithDuration:duration delay:0.0f options:self.options.openCloseAnimationOptions animations:^{
-        self.contentContainerView.frame = finalFrame;
+//        self.contentContainerView.frame = finalFrame;
+        self.contentContainerView.transform = finalContentTransform;
         self.menuViewController.view.transform = finalMenuTransform;
         panInfo.menuAction == DBBasementMenuOpen ? [self menuIsAnimatingOpen] : [self menuIsAnimatingClosed];
     } completion:completionBlock];
@@ -585,8 +593,6 @@ typedef struct {
     newTransform.d += (endTransform.d - startTransform.d) * distance;
     newTransform.tx += (endTransform.tx - startTransform.tx) * distance;
     newTransform.ty += (endTransform.ty - startTransform.ty) * distance;
-    
-    
     return newTransform;
 }
 

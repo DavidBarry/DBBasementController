@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, DBMenuRow) {
         cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"menu-cell-bg"]];
         cell.textLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:20.0f];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
     }
     
     NSString *cellText = nil;

@@ -38,7 +38,8 @@
         self.navigationBounceAnimationOptions = UIViewAnimationOptionCurveEaseInOut;
         
         self.closedMenuTransform = CGAffineTransformIdentity;
-        self.contentViewOverlapWidth= 40.0f;
+        self.openMenuContentTransform = CGAffineTransformIdentity;
+        self.contentViewOverlapWidth = 40.0f;
         
         self.bounceWhenNavigating = YES;
         self.bounceOnOpenAndClose = YES;
@@ -68,6 +69,7 @@
     options.navigationBounceAnimationOptions = self.navigationBounceAnimationOptions;
     
     options.closedMenuTransform = self.closedMenuTransform;
+    options.openMenuContentTransform = self.openMenuContentTransform;
     options.contentViewOverlapWidth = self.contentViewOverlapWidth;
     
     options.bounceWhenNavigating = self.bounceWhenNavigating;

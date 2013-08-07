@@ -36,6 +36,7 @@
 @property (assign, nonatomic) UIViewAnimationOptions navigationBounceAnimationOptions;
 
 @property (assign, nonatomic) CGAffineTransform closedMenuTransform;
+@property (assign, nonatomic) CGAffineTransform openMenuContentTransform;
 @property (assign, nonatomic) CGFloat contentViewOverlapWidth;
 
 #pragma mark - Enable/Disable Behaviors
